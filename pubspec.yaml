@@ -1,6 +1,6 @@
 name: otel_dbt_cloud
 description: "Dartastic OpenTelemetry bridge for dbt Cloud (jobs, runs, models, tests, freshness, project)."
-version: 0.1.0-beta.1-wip
+version: 0.1.0-beta.1
 repository: https://github.com/dartastic/otel_dbt_cloud
 homepage: https://dartastic.io
 publish_to: https://pub.dartastic.io

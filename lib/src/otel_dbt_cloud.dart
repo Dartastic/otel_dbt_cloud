@@ -1,15 +1,16 @@
-// Licensed under the Dartastic Pro Software License Agreement.
+// Licensed under the Apache License, Version 2.0
 // Copyright 2025-2026 Mindful Software LLC d/b/a Dartastic.io, All rights reserved.
 
-import 'package:dartastic_opentelemetry/dartastic_opentelemetry.dart';
+import 'package:dartastic_opentelemetry_api/dartastic_opentelemetry_api.dart';
 
 import 'otel_dbt_cloud_suppression.dart';
 
 const _tracerName = 'dartastic_otel_libs_dbt_cloud';
 
-Tracer _tracer() => OTel.tracerProvider().getTracer(_tracerName);
+APITracer _tracer() => OTelAPI.tracerProvider().getTracer(_tracerName);
 
 class DbtCloudResult {
+  /// Creates a result.
   const DbtCloudResult({
     this.accountId,
     this.projectId,
@@ -81,8 +82,13 @@ class DbtCloudResult {
   final int? statusCode;
 }
 
+/// What a traced call returned: the value for the caller plus fields
+/// recorded on the span.
 class DbtCloudCallResult<T> {
+  /// Creates a call result.
   const DbtCloudCallResult({required this.value, this.result});
+
+  /// The value returned to the caller.
   final T value;
   final DbtCloudResult? result;
 }
@@ -109,56 +115,56 @@ Future<T> tracedDbtCloud<T>({
   final span = _tracer().startSpan(
     'dbt_cloud $operation',
     kind: SpanKind.client,
-    attributes: OTel.attributesFromMap(m),
+    attributes: OTelAPI.attributesFromMap(m),
   );
   try {
     final r = await invoke();
     if (r.result != null) {
       final extras = <Attribute<Object>>[];
       if (r.result!.accountId != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'dbt_cloud.account.id',
           r.result!.accountId!,
         ));
       }
       if (r.result!.projectId != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'dbt_cloud.project.id',
           r.result!.projectId!,
         ));
       }
       if (r.result!.environmentId != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'dbt_cloud.environment.id',
           r.result!.environmentId!,
         ));
       }
       if (r.result!.environmentType != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'dbt_cloud.environment.type',
           r.result!.environmentType!,
         ));
       }
       if (r.result!.jobId != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'dbt_cloud.job.id',
           r.result!.jobId!,
         ));
       }
       if (r.result!.jobName != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'dbt_cloud.job.name',
           r.result!.jobName!,
         ));
       }
       if (r.result!.runId != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'dbt_cloud.run.id',
           r.result!.runId!,
         ));
       }
       if (r.result!.runStatus != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'dbt_cloud.run.status',
           r.result!.runStatus!,
         ));
@@ -167,43 +173,43 @@ Future<T> tracedDbtCloud<T>({
         }
       }
       if (r.result!.runReason != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'dbt_cloud.run.reason',
           r.result!.runReason!,
         ));
       }
       if (r.result!.dbtVersion != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'dbt_cloud.dbt.version',
           r.result!.dbtVersion!,
         ));
       }
       if (r.result!.modelsExecuted != null) {
-        extras.add(OTel.attributeInt(
+        extras.add(OTelAPI.attributeInt(
           'dbt_cloud.models.executed',
           r.result!.modelsExecuted!,
         ));
       }
       if (r.result!.modelsPassed != null) {
-        extras.add(OTel.attributeInt(
+        extras.add(OTelAPI.attributeInt(
           'dbt_cloud.models.passed',
           r.result!.modelsPassed!,
         ));
       }
       if (r.result!.testsExecuted != null) {
-        extras.add(OTel.attributeInt(
+        extras.add(OTelAPI.attributeInt(
           'dbt_cloud.tests.executed',
           r.result!.testsExecuted!,
         ));
       }
       if (r.result!.testsPassed != null) {
-        extras.add(OTel.attributeInt(
+        extras.add(OTelAPI.attributeInt(
           'dbt_cloud.tests.passed',
           r.result!.testsPassed!,
         ));
       }
       if (r.result!.testsFailed != null) {
-        extras.add(OTel.attributeInt(
+        extras.add(OTelAPI.attributeInt(
           'dbt_cloud.tests.failed',
           r.result!.testsFailed!,
         ));
@@ -212,25 +218,25 @@ Future<T> tracedDbtCloud<T>({
         }
       }
       if (r.result!.testsWarn != null) {
-        extras.add(OTel.attributeInt(
+        extras.add(OTelAPI.attributeInt(
           'dbt_cloud.tests.warn',
           r.result!.testsWarn!,
         ));
       }
       if (r.result!.snapshotsRun != null) {
-        extras.add(OTel.attributeInt(
+        extras.add(OTelAPI.attributeInt(
           'dbt_cloud.snapshots.run',
           r.result!.snapshotsRun!,
         ));
       }
       if (r.result!.sourcesPassed != null) {
-        extras.add(OTel.attributeInt(
+        extras.add(OTelAPI.attributeInt(
           'dbt_cloud.sources.passed',
           r.result!.sourcesPassed!,
         ));
       }
       if (r.result!.sourcesStale != null) {
-        extras.add(OTel.attributeInt(
+        extras.add(OTelAPI.attributeInt(
           'dbt_cloud.sources.stale',
           r.result!.sourcesStale!,
         ));
@@ -239,19 +245,19 @@ Future<T> tracedDbtCloud<T>({
         }
       }
       if (r.result!.deferToRunId != null) {
-        extras.add(OTel.attributeString(
+        extras.add(OTelAPI.attributeString(
           'dbt_cloud.defer.to_run_id',
           r.result!.deferToRunId!,
         ));
       }
       if (r.result!.durationSec != null) {
-        extras.add(OTel.attributeInt(
+        extras.add(OTelAPI.attributeInt(
           'dbt_cloud.duration_sec',
           r.result!.durationSec!,
         ));
       }
       if (r.result!.statusCode != null) {
-        extras.add(OTel.attributeInt(
+        extras.add(OTelAPI.attributeInt(
           'http.response.status_code',
           r.result!.statusCode!,
         ));
@@ -262,13 +268,13 @@ Future<T> tracedDbtCloud<T>({
           );
         }
       }
-      if (extras.isNotEmpty) span.addAttributes(OTel.attributes(extras));
+      if (extras.isNotEmpty) span.addAttributes(OTelAPI.attributes(extras));
     }
     return r.value;
   } catch (e, st) {
-    span.addAttributes(OTel.attributes([
-      OTel.attributeString(
-        ErrorResource.errorType.key,
+    span.addAttributes(OTelAPI.attributes([
+      OTelAPI.attributeString(
+        ErrorAttributes.errorType.key,
         e.runtimeType.toString(),
       ),
     ]));
